@@ -2,11 +2,10 @@
 import { signIn } from 'next-auth/react';
 
 interface CardProps {
-  href: string
   auth: string
 }
 
-export default function Card({ href, auth }: CardProps) {
+export default function Card({ auth }: CardProps) {
   return (
     <div className="card social-block">
       <div className="card-body">

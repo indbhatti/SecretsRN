@@ -9,7 +9,11 @@ export const metadata = {
   description: 'Share secrets the anon way',
 }
 
-export default function RootLayout({ children }) {
+export default function DashboardLayout({
+  children, // will be a page or nested layout
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en" dir="ltr" className="h-100">
       <body className="d-flex flex-column h-100">

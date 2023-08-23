@@ -1,18 +1,24 @@
-export default function Submit() {
-  return (
-    <div className="container">
-      <div className="jumbotron centered">
-        <h1 className="display-3">Secrets</h1>
-        <p className="secret-text">Don't keep your secrets, share them anonymously!</p>
+import UserSecret from './usersecret'
+import Form from './form'
+import { options } from '../api/auth/[...nextauth]/options'
+import { getServerSession } from 'next-auth/next'
 
-        <form action="/submit" method="POST">
-          <div className="form-group">
-            <input type="text" className="form-control text-center" name="secret" placeholder="What's your secret?" />
-          </div>
-          <button type="submit" className="btn btn-dark my-4">Submit</button>
-        </form>
-
+export default async function Submit() {
+  const data = await getServerSession(options)
+  if (data) {
+    return (
+      <div className="container">
+        <div className="jumbotron centered">
+          <h1 className="display-3">Secrets</h1>
+          <p className="secret-text">Don't keep your secrets, share them anonymously!</p>
+          <Form data={data} />
+          <UserSecret data={data} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  return (
+  <div><h1>error</h1></div>
+      )
 }
+

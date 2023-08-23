@@ -2,8 +2,12 @@
 
 import { useState } from 'react';
 
+interface Props {
+  formType: string,
+  submit(user: { username: string, password: string }): void;
+}
 
-export default function Form() {
+export default function Form({ submit, formType }: Props) {
   const [user, setUser] = useState({ username: '', password: '' })
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -15,39 +19,21 @@ export default function Form() {
     console.log(user);
   };
 
-  async function submit() {
-    try {
-      const response = await fetch('http://localhost:3000/api/user', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit user data');
-      }
-
-      const result = await response.json();
-      console.log(result);
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
-  };
 
   return (
     <div className="card-body">
       <form>
         <div className="form-group">
           <label htmlFor="email">Email</label>
-          <input onChange={handleChange} type="email" className="form-control" name="username" />
+          <input onChange={handleChange} id="email" type="email" autoComplete="on" className="form-control" name="username" />
         </div>
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input onChange={handleChange} type="password" className="form-control" name="password" />
+          <input onChange={handleChange} id="password" type="password" autoComplete="on" className="form-control" name="password" />
         </div>
-        <button onClick={submit} type="button" className="btn btn-dark mt-3">Login</button>
+        <button onClick={() => {
+          submit(user);
+        }} type="button" className="btn btn-dark mt-3">{formType}</button>
       </form>
     </div>
   );
