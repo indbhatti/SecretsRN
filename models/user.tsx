@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
   secret: String
 });
 
-mongoose.models = {};
-var User = mongoose.model('User', userSchema);
+// mongoose.models = {};
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+// var User = mongoose.model('User', userSchema);
 
 export default User;

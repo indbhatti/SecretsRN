@@ -18,7 +18,7 @@ export default async function Submit() {
     );
   }
   return (
-  <div><h1>error</h1></div>
-      )
+    <div><h1>error</h1></div>
+  )
 }
 

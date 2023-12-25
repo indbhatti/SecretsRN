@@ -1,16 +1,19 @@
 'use client'
 import Card from "../Card"
 import Form from "../Form"
+import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 
 
 export default function Login() {
-  async function submit(user: { username: string, password: string }) {
-    const result = await signIn('credentials', {
-      username,
-      password,
-      // You can add other fields here
+  async function submit({ username, password }: { username: string, password: string }) {
+    const status = await signIn('credentials', {
+      redirect: true,
+      email: username,
+      password: password,
+      callbackUrl: '/secrets'
     });
+    console.log(status);
   };
   return (
     <div className="container mt-5">
@@ -21,6 +24,7 @@ export default function Login() {
           <div className="card">
             <Form submit={submit} formType="Login" />
           </div>
+        <Link className="btn btn-dark mt-3" href="/auth/register">Sign Up</Link>
         </div>
 
         <div className="col-sm-4">

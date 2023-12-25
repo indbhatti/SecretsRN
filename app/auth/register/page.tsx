@@ -1,7 +1,6 @@
 'use client'
 import Card from '../Card';
 import Form from '../Form'
-import { redirect } from 'next/navigation'
 
 export default async function Register() {
 
@@ -15,11 +14,18 @@ export default async function Register() {
         }
       });
 
+      console.log(response)
+
       if (!response.ok) {
+
         throw new Error('Failed to submit user data');
       }
+
       const result = await response.json();
-      redirect('/')
+      if (result.status === 409) {
+        alert('User already exists');
+        throw new Error('User already exists', result)
+      }
     } catch (error) {
       console.error('An error occurred:', error);
     }

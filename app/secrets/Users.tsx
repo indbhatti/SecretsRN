@@ -12,7 +12,7 @@ const getUsers = async () => {
 export default async function Users() {
   const users = await getUsers();
   return (<div>
-    {users.map((user) => {
+    {users.map((user: {_id: string, secret: string}) => {
       return <p key={user._id} className="secret-text rounded-3">{user.secret}</p>
     })}
   </div>

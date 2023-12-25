@@ -16,7 +16,7 @@ export default function Form({ submit, formType }: Props) {
       ...prevUser,
       [name]: value
     }));
-    console.log(user);
+    // console.log(user);
   };
 
 
