@@ -4,8 +4,9 @@ import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import connectMongo from '../../../../middleware/mongooseconnect'
-import User from '../../../../models/user'
+import UserMongo from '../../../../models/user'
 import { compare } from 'bcryptjs'
+import { User } from 'next-auth'
 
 export const options = {
   providers: [
@@ -23,10 +24,19 @@ export const options = {
       clientSecret: process.env.FACEBOOK_APP_SECRET as string
     }),
     CredentialsProvider({
-      authorize: async (credentials: { email: string, password: string }): Promise<{ email: string } | null> => {
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "Email@mail.com" },
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (
+        credentials: Record<string, string> | undefined
+      ) => {
         try {
+          if (!credentials) {
+            return null
+          }
           const db = await connectMongo(); // Make sure connectMongo returns a database connection
-          const user = await User.findOne({ username: credentials.email }); // Use findOne instead of find
+          const user = await UserMongo.findOne({ username: credentials.email }); // Use findOne instead of find
 
           if (!user) {
             return null
@@ -38,7 +48,11 @@ export const options = {
             return null
           }
 
-          return { email: user.username };
+          const userToSend: User = {
+            id: user._id,
+            email: user.username
+          }
+          return userToSend;
         } catch (error) {
           return null
         }
