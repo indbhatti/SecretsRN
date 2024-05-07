@@ -6,7 +6,7 @@ export default async function Register() {
 
   async function submit(user: { username: string, password: string }) {
     try {
-      const response = await fetch('http://localhost:3000/api/register', {
+      const response = await fetch(`${process.env.API_URL || "http://localhost:3000"}/api/register`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {

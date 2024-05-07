@@ -1,5 +1,5 @@
 const getUsers = async () => {
-  const response = await fetch('http://localhost:3000/api/secrets', {
+  const response = await fetch(`${process.env.API_URL || "http://localhost:3000"}/api/secrets` , {
     cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',

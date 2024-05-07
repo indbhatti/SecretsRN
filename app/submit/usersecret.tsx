@@ -3,7 +3,7 @@ export default async function({ data }: { data: Session }) {
   const getUser = async () => {
     if (data != null) {
       try {
-        const response = await fetch("http://localhost:3000/api/user-secret", {
+        const response = await fetch(`${process.env.API_URL || "http://localhost:3000"}/api/user-secret`, {
           method: "POST",
           body: JSON.stringify(data.user),
           cache: 'no-store',

@@ -17,7 +17,7 @@ export default function Form({ data }: { data: Session }) {
         email: data.user.email
       }
       try {
-        const response = await fetch('http://localhost:3000/api/submit-secret', {
+        const response = await fetch(`${process.env.API_URL || "http://localhost:3000"}/api/submit-secret`, {
           method: 'POST',
           body: JSON.stringify(dataToSend),
           headers: {
