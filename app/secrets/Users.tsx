@@ -1,6 +1,9 @@
 const getUsers = async () => {
 
-  const apiUrl = process.env.API_URL || "http://localhost:3000";
+  const apiUrl = process.env.API_URL;
+  if (!apiUrl) {
+    throw new Error("API_URL is not defined in the environment variables");
+  }
   const response = await fetch(`${apiUrl}/api/secrets`, {
     cache: 'no-store',
     headers: {
