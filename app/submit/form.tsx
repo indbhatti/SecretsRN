@@ -25,7 +25,6 @@ const submit = async (data: Session, secret: string) => {
 
       const result = await response.json();
       console.log(result);
-      // router.refresh()
     } catch (error) {
       console.error('Error submitting:', error);
     }
@@ -33,7 +32,7 @@ const submit = async (data: Session, secret: string) => {
 }
 
 export default function Form({ data }: { data: Session }) {
-  // const router = useRouter();
+  const router = useRouter();
   const [secret, setSecret] = useState('')
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target as HTMLInputElement
@@ -45,7 +44,10 @@ export default function Form({ data }: { data: Session }) {
       <div className="form-group">
         <input onChange={handleChange} value={secret} type="text" className="form-control text-center" name="secret" placeholder="What's your secret?" />
       </div>
-      <button onClick={() => {submit( data, secret )}} className="btn btn-dark my-4" name="submit" type="button">Submit</button>
+      <button onClick={() => {
+        submit(data, secret);
+        router.refresh()
+      }} className="btn btn-dark my-4" name="submit" type="button">Submit</button>
     </div>
   )
 }
