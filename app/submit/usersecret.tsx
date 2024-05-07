@@ -1,31 +1,29 @@
 import { Session } from 'next-auth'
-export default async function({ data }: { data: Session }) {
-  const getUser = async () => {
-    if (data != null) {
-      try {
-        const response = await fetch(`https://secrets-rn.vercel.app/api/user-secret`, {
-          method: "POST",
-          body: JSON.stringify(data.user),
-          cache: 'no-store',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to Post');
-        }
-
-        const result = await response.json();
-        return result.user
-
+const getUser = async (data : Session) => {
+  try {
+    const response = await fetch(`https://secrets-rn.vercel.app/api/user-secret`, {
+      method: "POST",
+      body: JSON.stringify(data.user),
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
       }
-      catch (error) {
-        console.error('Error Posting:', error);
-      }
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to Post');
     }
+
+    const result = await response.json();
+    return result.user
+
   }
-  var user = await getUser();
+  catch (error) {
+    console.error('Error Posting:', error);
+  }
+}
+export default async function({ data }: { data: Session }) {
+  var user = await getUser(data);
   return (
     <div>
       {
@@ -35,5 +33,4 @@ export default async function({ data }: { data: Session }) {
       }
     </div>
   )
-
 }
