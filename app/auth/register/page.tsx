@@ -4,11 +4,7 @@ import Form from '../Form'
 
 const submit = async (user: { username: string, password: string }) => {
   try {
-    const apiUrl = process.env.API_URL as string;
-    if (!apiUrl) {
-      throw new Error("API_URL is not defined in the environment variables");
-    }
-    const response = await fetch(`${apiUrl}/api/register`, {
+    const response = await fetch(`/api/register`, {
       method: 'POST',
       body: JSON.stringify(user),
       headers: {
@@ -34,6 +30,9 @@ const submit = async (user: { username: string, password: string }) => {
 };
 
 export default async function Register() {
+  async function submitForm(user: { username: string, password: string }) {
+    await submit(user);
+  }
   return (
     <div className="container mt-5">
       <h1>Register</h1>
@@ -41,7 +40,7 @@ export default async function Register() {
       <div className="row">
         <div className="col-sm-8">
           <div className="card">
-            <Form submit={submit} formType="Register" />
+            <Form submit={submitForm} formType="Register" />
           </div>
         </div>
 

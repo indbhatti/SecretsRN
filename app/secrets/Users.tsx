@@ -1,9 +1,5 @@
 const getUsers = async () => {
-  const apiUrl = process.env.API_URL as string;
-  if (!apiUrl) {
-    throw new Error("API_URL is not defined in the environment variables");
-  }
-  const response = await fetch(`${apiUrl}/api/secrets`, {
+  const response = await fetch(`https://secrets-rn.vercel.app/api/secrets`, {
     cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',

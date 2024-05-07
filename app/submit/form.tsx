@@ -22,7 +22,7 @@ export default function Form({ data }: { data: Session }) {
         if (!apiUrl) {
           throw new Error("API_URL is not defined in the environment variables");
         }
-        const response = await fetch(`${apiUrl}/api/submit-secret`, {
+        const response = await fetch(`/api/submit-secret`, {
           method: 'POST',
           body: JSON.stringify(dataToSend),
           headers: {
