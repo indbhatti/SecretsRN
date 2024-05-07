@@ -18,7 +18,7 @@ export default function Form({ data }: { data: Session }) {
       }
       try {
 
-        const apiUrl = process.env.API_URL;
+        const apiUrl = process.env.API_URL as string;
         if (!apiUrl) {
           throw new Error("API_URL is not defined in the environment variables");
         }

@@ -3,7 +3,7 @@ export default async function({ data }: { data: Session }) {
   const getUser = async () => {
     if (data != null) {
       try {
-        const apiUrl = process.env.API_URL;
+        const apiUrl = process.env.API_URL as string;
         if (!apiUrl) {
           throw new Error("API_URL is not defined in the environment variables");
         }
