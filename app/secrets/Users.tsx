@@ -1,5 +1,6 @@
 const getUsers = async () => {
   const response = await fetch(`https://secrets-rn.vercel.app/api/secrets`, {
+    method: "POST",
     cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',

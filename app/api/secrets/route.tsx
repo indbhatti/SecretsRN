@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import User from '../../../models/user';
 import connectMongo from '../../../middleware/mongooseconnect'
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const connect = await connectMongo();
     if (connect) {
