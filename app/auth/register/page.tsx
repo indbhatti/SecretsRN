@@ -1,6 +1,7 @@
 'use client'
 import Card from '../Card';
 import Form from '../Form'
+import { signIn } from 'next-auth/react';
 
 const submit = async (user: { username: string, password: string }) => {
   try {
@@ -15,7 +16,6 @@ const submit = async (user: { username: string, password: string }) => {
     console.log(response)
 
     if (!response.ok) {
-
       throw new Error('Failed to submit user data');
     }
 
@@ -24,15 +24,18 @@ const submit = async (user: { username: string, password: string }) => {
       alert('User already exists');
       throw new Error('User already exists', result)
     }
+    const status = await signIn('credentials', {
+      redirect: true,
+      email: user.username,
+      password: user.password,
+      callbackUrl: '/secrets'
+    });
   } catch (error) {
     console.error('An error occurred:', error);
   }
 };
 
 export default async function Register() {
-  async function submitForm(user: { username: string, password: string }) {
-    await submit(user);
-  }
   return (
     <div className="container mt-5">
       <h1>Register</h1>
@@ -40,7 +43,9 @@ export default async function Register() {
       <div className="row">
         <div className="col-sm-8">
           <div className="card">
-            <Form submit={submitForm} formType="Register" />
+            <Form submit={(user) => {
+              submit(user)
+            }} formType="Register" />
           </div>
         </div>
 
