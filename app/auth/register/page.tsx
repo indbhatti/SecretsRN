@@ -2,39 +2,38 @@
 import Card from '../Card';
 import Form from '../Form'
 
-export default async function Register() {
-
-  async function submit(user: { username: string, password: string }) {
-    try {
-      const apiUrl = process.env.API_URL as string;
-      if (!apiUrl) {
-        throw new Error("API_URL is not defined in the environment variables");
-      }
-      const response = await fetch(`${apiUrl}/api/register`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log(response)
-
-      if (!response.ok) {
-
-        throw new Error('Failed to submit user data');
-      }
-
-      const result = await response.json();
-      if (result.status === 409) {
-        alert('User already exists');
-        throw new Error('User already exists', result)
-      }
-    } catch (error) {
-      console.error('An error occurred:', error);
+const submit = async (user: { username: string, password: string }) => {
+  try {
+    const apiUrl = process.env.API_URL as string;
+    if (!apiUrl) {
+      throw new Error("API_URL is not defined in the environment variables");
     }
-  };
+    const response = await fetch(`${apiUrl}/api/register`, {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
+    console.log(response)
+
+    if (!response.ok) {
+
+      throw new Error('Failed to submit user data');
+    }
+
+    const result = await response.json();
+    if (result.status === 409) {
+      alert('User already exists');
+      throw new Error('User already exists', result)
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+};
+
+export default async function Register() {
   return (
     <div className="container mt-5">
       <h1>Register</h1>
