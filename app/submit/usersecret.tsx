@@ -3,7 +3,11 @@ export default async function({ data }: { data: Session }) {
   const getUser = async () => {
     if (data != null) {
       try {
-        const response = await fetch(`${process.env.API_URL || "http://localhost:3000"}/api/user-secret`, {
+        const apiUrl = process.env.API_URL;
+        if (!apiUrl) {
+          throw new Error("API_URL is not defined in the environment variables");
+        }
+        const response = await fetch(`${apiUrl}/api/user-secret`, {
           method: "POST",
           body: JSON.stringify(data.user),
           cache: 'no-store',
