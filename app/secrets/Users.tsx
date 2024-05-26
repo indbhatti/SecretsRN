@@ -1,10 +1,10 @@
-import { useRouter } from 'next/router'
 import { UserType } from "../../models/user"
 
 const getUsers = async () => {
-  const router = useRouter();
   try {
-    const response = await fetch(`${router.basePath}/api/secrets`, {
+    const uri = process.env.NEXTAUTH_URL as string;
+    console.log(uri);
+    const response = await fetch(`${uri}/api/secrets`, {
       method: "POST",
       cache: 'no-store',
       headers: {
