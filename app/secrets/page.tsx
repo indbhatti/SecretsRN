@@ -6,18 +6,18 @@ import Logout from './logout'
 
 export default async function Secrets() {
   const data = await getServerSession(options)
-    const email=" ";
-    if (data && data.user && data.user.email) {
+  const email = " ";
+  if (data && data.user && data.user.email) {
     const email = JSON.stringify(data.user.email);
-    }
+  }
 
   return (
     <div className="jumbotron text-center mt-5">
       <i className="fas fa-user-secret fa-6x"></i>
       <div className="container box mt-5">
-        {data &&
+        {data && data.user && data.user.email &&
           <div>
-            <h1>Email: {email}</h1>
+            <h1>Email: {data.user.email}</h1>
             <Logout />
           </div>
         }

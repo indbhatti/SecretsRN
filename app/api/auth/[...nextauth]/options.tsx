@@ -59,6 +59,12 @@ export const options = {
       }
     }),
   ],
+  callbacks: {
+    async redirect() {
+      const apiUrl = process.env.NEXTAUTH_URL as string;
+      return apiUrl;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/auth/signin',
