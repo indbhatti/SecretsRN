@@ -4,9 +4,10 @@ import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
 import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import connectMongo from '../../../../middleware/mongooseconnect'
-import UserMongo from '../../../../models/user'
+import UserMongo, { UserType } from '../../../../models/user'
 import { compare } from 'bcryptjs'
-import { User } from 'next-auth'
+import { Account, Profile, TokenSet, User } from 'next-auth'
+import { AdapterUser } from 'next-auth/adapters'
 
 export const options = {
   providers: [
@@ -60,10 +61,107 @@ export const options = {
     }),
   ],
   callbacks: {
+    async jwt({
+      token,
+      account,
+      user,
+      profile,
+    }: {
+      token: TokenSet;
+      account: Account | null;
+      user: User | AdapterUser;
+      profile?: Profile | undefined;
+    }) {
+      if (account) {
+        // Set these once, as they do not depend on the database lookup
+        token.accessToken = account.access_token;
+        token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
+        token.userId = user.id;
+
+        if (profile) {
+          try {
+            const db = await connectMongo(); // Ensure the connection is handled correctly in connectMongo
+            const dbUser: UserType | null = await UserMongo.findOne({
+              email: profile.email,
+            });
+
+            if (dbUser) {
+              // Update token with data from database
+              token.userId = dbUser._id;
+              token.name = dbUser.username;
+            } else {
+              console.log("User not found");
+              // Optionally handle user not found scenario
+            }
+          } catch (error) {
+            console.log("Error accessing MongoDB:", error);
+            // Optionally handle the error, e.g., by setting an error flag in the token
+          }
+
+          // These should only be set if profile is available
+          token.email = profile.email;
+        }
+      }
+      return token; // Return the modified token
+    }
+    ,
+    async session({ session, token }: { session: any, token: TokenSet }) {
+      // this token return above jwt()
+      session.accessToken = token.accessToken;
+      session.user.userId = token.userId;
+      //if you want to add user details info
+      // console.log(session);
+      return session;
+    },
+
     async redirect() {
       const apiUrl = process.env.NEXTAUTH_URL as string;
       return apiUrl;
     },
+
+    async signIn({
+      account,
+      profile,
+    }: {
+      account: Account | null;
+      profile?: Profile | undefined; // Make profile optional if required by the library
+    }) {
+      if (!account) {
+        return false;
+      }
+      if (account.provider === "google") {
+        if (!profile) {
+          return false;
+        }
+        try {
+          const connect = await connectMongo();
+          if (connect) {
+            const user: UserType | null = await UserMongo.findOne({
+              googleId: account.providerAccountId,
+            });
+            if (!user) {
+              var newUser = new UserMongo({
+                email: profile.email,
+                googleId: account.providerAccountId,
+              });
+
+              await newUser.save(); // Ensure `save` operation is awaited
+            }
+            return true;
+          }
+          return false; // Ensure a boolean is returned if `connect` is falsy
+        } catch (error) {
+          console.log(error);
+          return false; // Ensure a boolean is returned in the catch block
+        }
+      } else if (account.provider === "credentials") {
+        return true;
+      }
+      return false; // Ensure a boolean is returned if no condition is met
+    }
+
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
