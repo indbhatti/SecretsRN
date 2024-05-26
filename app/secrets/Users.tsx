@@ -2,6 +2,7 @@ import { UserType } from "../../models/user"
 
 const getUsers = async () => {
   const uri = process.env.NEXTAUTH_URL as string;
+  console.log(uri)
   const response = await fetch(`${uri}/api/secrets`, {
     method: "POST",
     cache: 'no-store',
