@@ -1,5 +1,12 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
+export interface UserType extends Document {
+  username: string,
+  password: string,
+  googleId?: string,
+  facebookId?: string,
+  secret: string,
+}
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,

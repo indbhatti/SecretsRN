@@ -1,7 +1,8 @@
 import { Session } from 'next-auth'
 const getUser = async (data : Session) => {
   try {
-    const response = await fetch(`https://secrets-rn.vercel.app/api/user-secret`, {
+    const uri = process.env.NEXTAUTH_URL as string;
+    const response = await fetch(`${uri}/api/user-secret`, {
       method: "POST",
       body: JSON.stringify(data.user),
       cache: 'no-store',
