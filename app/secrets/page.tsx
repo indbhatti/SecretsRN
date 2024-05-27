@@ -3,6 +3,7 @@ import { options } from '../api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth/next'
 import Users from './Users'
 import Logout from '../logout'
+import { Suspense } from 'react';
 
 export default async function Secrets() {
   const data = await getServerSession(options)
@@ -24,7 +25,9 @@ export default async function Secrets() {
         <Link className="btn btn-dark btn-lg mx-1" href="/submit" role="button">Submit a Secret</Link>
         <hr />
         <h1 className="display-3 my-4">I hope you don't find out it was me!</h1>
-        <Users />
+        <Suspense fallback={<p className="secret-text rounded-3">loading...</p>}>
+          <Users />
+        </Suspense >
       </div>
     </div>
   );
