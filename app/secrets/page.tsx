@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { options } from '../api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth/next'
 import Users from './Users'
-import Logout from './logout'
+import Logout from '../logout'
 
 export default async function Secrets() {
   const data = await getServerSession(options)

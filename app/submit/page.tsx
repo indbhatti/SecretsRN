@@ -1,4 +1,3 @@
-import UserSecret from './usersecret'
 import Form from './form'
 import { options } from '../api/auth/[...nextauth]/options'
 import { getServerSession } from 'next-auth/next'
@@ -11,8 +10,7 @@ export default async function Submit() {
         <div className="jumbotron centered">
           <h1 className="display-3">Secrets</h1>
           <p className="secret-text">Don't keep your secrets, share them anonymously!</p>
-          <Form data={data} />
-          <UserSecret data={data} />
+          <Form user={data.user} />
         </div>
       </div>
     );

@@ -118,7 +118,7 @@ export const options = {
 
     async redirect() {
       const apiUrl = process.env.NEXTAUTH_URL as string;
-      return apiUrl;
+      return `${apiUrl}/secrets`;
     },
 
     async signIn({
@@ -143,7 +143,7 @@ export const options = {
             });
             if (!user) {
               var newUser = new UserMongo({
-                email: profile.email,
+                username: profile.email,
                 googleId: account.providerAccountId,
               });
 
