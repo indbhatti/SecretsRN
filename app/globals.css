@@ -15,9 +15,5 @@ body {
   background-color: #000;
 }
 
-.box {
-  width: 1000px;
-}
-
 ul.nav a:hover { color: #000 !important; }
 ul.nav a { color: #696969 !important; }

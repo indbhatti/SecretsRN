@@ -15,7 +15,7 @@ export default async function Secrets() {
   return (
     <div className="jumbotron text-center mt-5">
       <i className="fas fa-user-secret fa-6x"></i>
-      <div className="container box mt-5">
+      <div className="container mt-5">
         {data && data.user && data.user.email &&
           <div>
             <h1>Email: {data.user.email}</h1>
