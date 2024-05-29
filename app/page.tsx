@@ -12,7 +12,7 @@ export default async function Home() {
         <h1 className="display-3">Secrets</h1>
         <p className="lead">Don't keep your secrets, share them anonymously!</p>
         <hr />
-        {data.user ? (
+        {data && data.user ? (
           <div>
             <Link className="btn btn-dark btn-lg" href="/secrets" role="button">Secrets</Link>
             <Logout />

@@ -1,41 +1,25 @@
-'use client'
+"use client"
+import { register } from '@/actions/actions';
 import Card from '../Card';
-import Form from '../Form'
+import { FormEvent, FormEventHandler } from 'react';
 import { signIn } from 'next-auth/react';
 
-const submit = async (user: { username: string, password: string }) => {
-  try {
-    const response = await fetch(`/api/register`, {
-      method: 'POST',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+export default function Register() {
 
-    console.log(response)
-
-    if (!response.ok) {
-      throw new Error('Failed to submit user data');
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const response = await register(formData);
+    if (response.status == 200) {
+      const res = await signIn('credentials', {
+        redirect: true,
+        email: formData.get("username"),
+        password: formData.get("password"),
+        callbackUrl: '/secrets'
+      });
     }
-
-    const result = await response.json();
-    if (result.status === 409) {
-      alert('User already exists');
-      throw new Error('User already exists', result)
-    }
-    const status = await signIn('credentials', {
-      redirect: true,
-      email: user.username,
-      password: user.password,
-      callbackUrl: '/secrets'
-    });
-  } catch (error) {
-    console.error('An error occurred:', error);
   }
-};
 
-export default async function Register() {
   return (
     <div className="container mt-5">
       <h1>Register</h1>
@@ -43,9 +27,32 @@ export default async function Register() {
       <div className="row">
         <div className="col-sm-8">
           <div className="card">
-            <Form submit={(user) => {
-              submit(user)
-            }} formType="Register" />
+            <div className="card-body">
+              <form onSubmit={handleSubmit}
+                className="form-group">
+                <label htmlFor="email">Email</label>
+
+                <input
+                  type="email"
+                  autoComplete="on"
+                  className="form-control"
+                  name="username" />
+
+                <label htmlFor="password">Password</label>
+
+                <input
+                  type="password"
+                  autoComplete="on"
+                  className="form-control"
+                  name="password" />
+
+                <button
+                  type="submit"
+                  className="btn btn-dark mt-3">
+                  Register
+                </button>
+              </form>
+            </div>
           </div>
         </div>
 

@@ -2,7 +2,6 @@ import GithubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GoogleProvider from 'next-auth/providers/google'
 import FacebookProvider from 'next-auth/providers/facebook'
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import connectMongo from '../../../../middleware/mongooseconnect'
 import UserMongo, { UserType } from '../../../../models/user'
 import { compare } from 'bcryptjs'
