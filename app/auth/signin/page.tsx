@@ -47,7 +47,7 @@ export default function Login() {
                 <button
                   type="submit"
                   className="btn btn-dark mt-3">
-                  Register
+                SignIn
                 </button>
               </form>
             </div>
