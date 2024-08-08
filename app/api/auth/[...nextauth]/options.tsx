@@ -1,62 +1,62 @@
-import GithubProvider from 'next-auth/providers/github'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import GoogleProvider from 'next-auth/providers/google'
-import FacebookProvider from 'next-auth/providers/facebook'
-import connectMongo from '../../../../middleware/mongooseconnect'
-import UserMongo, { UserType } from '../../../../models/user'
-import { compare } from 'bcryptjs'
-import { Account, Profile, TokenSet, User } from 'next-auth'
-import { AdapterUser } from 'next-auth/adapters'
+import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
+import connectMongo from "../../../../middleware/mongooseconnect";
+import UserMongo, { UserType } from "../../../../models/user";
+import { compare } from "bcryptjs";
+import { Account, Profile, TokenSet, User } from "next-auth";
+import { AdapterUser } from "next-auth/adapters";
 
 export const options = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string
-
+      clientSecret: process.env.GITHUB_SECRET as string,
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string
+      clientSecret: process.env.GOOGLE_SECRET as string,
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_APP_ID as string,
-      clientSecret: process.env.FACEBOOK_APP_SECRET as string
+      clientSecret: process.env.FACEBOOK_APP_SECRET as string,
     }),
     CredentialsProvider({
       credentials: {
         email: { label: "Email", type: "text", placeholder: "Email@mail.com" },
         password: { label: "Password", type: "password" },
       },
-      authorize: async (
-        credentials: Record<string, string> | undefined
-      ) => {
+      authorize: async (credentials: Record<string, string> | undefined) => {
         try {
           if (!credentials) {
-            return null
+            return null;
           }
           const db = await connectMongo(); // Make sure connectMongo returns a database connection
           const user = await UserMongo.findOne({ username: credentials.email }); // Use findOne instead of find
 
           if (!user) {
-            return null
+            return null;
           }
 
-          const checkPassword = await compare(credentials.password, user.password); // Correct the typo "passowrd" to "password"
+          const checkPassword = await compare(
+            credentials.password,
+            user.password,
+          ); // Correct the typo "passowrd" to "password"
 
           if (!checkPassword) {
-            return null
+            return null;
           }
 
           const userToSend: User = {
             id: user._id,
-            email: user.username
-          }
+            email: user.username,
+          };
           return userToSend;
         } catch (error) {
-          return null
+          return null;
         }
-      }
+      },
     }),
   ],
   callbacks: {
@@ -104,9 +104,8 @@ export const options = {
         }
       }
       return token; // Return the modified token
-    }
-    ,
-    async session({ session, token }: { session: any, token: TokenSet }) {
+    },
+    async session({ session, token }: { session: any; token: TokenSet }) {
       // this token return above jwt()
       session.accessToken = token.accessToken;
       session.user.userId = token.userId;
@@ -159,16 +158,14 @@ export const options = {
         return true;
       }
       return false; // Ensure a boolean is returned if no condition is met
-    }
-
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    verifyRequest: '/auth/verify-request', // (used for check email message)
-    newUser: '/auth/register' // New users will be directed here on first sign in (leave the property out if not of interest)
-  }
-}
-
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error", // Error code passed in query string as ?error=
+    verifyRequest: "/auth/verify-request", // (used for check email message)
+    newUser: "/auth/register", // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
+};

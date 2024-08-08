@@ -1,18 +1,18 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './globals.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./globals.css";
 
-import Header from './Header';
-import Footer from './Footer';
+import Header from "./Header";
+import Footer from "./Footer";
 
 export const metadata = {
-  title: 'Secrets',
-  description: 'Share secrets the anon way',
-}
+  title: "Secrets",
+  description: "Share secrets the anon way",
+};
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" dir="ltr" className="h-100">
@@ -22,5 +22,5 @@ export default function DashboardLayout({
         <Footer />
       </body>
     </html>
-  )
+  );
 }
