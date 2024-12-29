@@ -1,34 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Secrets Anonymous
+
+An entertainment-based web app where users can anonymously share their secrets with the world. Built with Next.js, the app emphasizes anonymity while offering a sleek and engaging user experience.
+
+## Features
+
+- **Anonymous Sharing**: Post secrets without revealing your identity.
+- **Dynamic Interactions**: Real-time updates powered by Next.js App Router and Server Actions.
+- **Secure Authentication**: User authentication via NextAuth with Google OAuth.
+- **Responsive Design**: Tailwind CSS ensures a modern and mobile-friendly UI.
+- **Robust Backend**: MongoDB serves as the database to store and manage secrets.
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org/) (App Router and Server Actions)
+- **Authentication**: [NextAuth](https://next-auth.js.org/) with Google OAuth
+- **Database**: [MongoDB](https://www.mongodb.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to set up the project on your local machine for development and testing.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### Prerequisites
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/) (v16 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- A MongoDB database instance
+- Google Cloud project for OAuth credentials
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository:
 
-## Learn More
+   ```bash
+   git clone https://github.com/indbhatti/secrets-anonymous.git
+   cd secrets-anonymous
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+3. Create a `.env.local` file in the root directory and add the following:
 
-## Deploy on Vercel
+   ```env
+   NEXTAUTH_SECRET=<your-nextauth-secret>
+   NEXTAUTH_URL=http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   GOOGLE_CLIENT_ID=<your-google-client-id>
+   GOOGLE_CLIENT_SECRET=<your-google-client-secret>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   MONGODB_URI=<your-mongodb-connection-string>
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Deployment
+
+The app can be deployed to platforms like Vercel. Follow these steps:
+
+1. Set up environment variables in the deployment platform.
+2. Deploy the app using the platform’s CLI or web interface.
+
+For detailed instructions, refer to the [Next.js deployment documentation](https://nextjs.org/docs/deployment).
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeatureName`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeatureName`).
+5. Open a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you have any questions or feedback, feel free to reach out:
+
+- Email: inderprbhatti@gmail.com
